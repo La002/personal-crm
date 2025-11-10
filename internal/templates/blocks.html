@@ -1,0 +1,105 @@
+{{define "blocks"}}
+<div class="grid grid-cols-2 gap-8">
+    <!-- Basic Info Block -->
+    <div class="border rounded-lg p-6">
+        <h3 class="text-lg font-semibold mb-4">Basic Info</h3>
+        <div class="space-y-4">
+            <div>
+                <label class="block text-sm font-medium text-gray-700">Name</label>
+                <input type="text" value="{{.Name}}" class="mt-1 w-full border rounded p-2" disabled>
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-700">Relationship</label>
+                <input type="text" value="{{.Relationship}}" class="mt-1 w-full border rounded p-2" disabled>
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-700">Industry</label>
+                <input type="text" value="{{.Industry}}" class="mt-1 w-full border rounded p-2" disabled>
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-700">Company</label>
+                <input type="text" value="{{.Company}}" class="mt-1 w-full border rounded p-2" disabled>
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-700">Birthday</label>
+                <input type="text" value="{{.Birthday}}" class="mt-1 w-full border rounded p-2" disabled>
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-700">VIP</label>
+                <input type="checkbox" {{if .VIP}}checked{{end}} class="mt-1" disabled>
+            </div>
+        </div>
+    </div>
+
+    <!-- VIP Info Block -->
+    <div class="border rounded-lg p-6">
+        <h3 class="text-lg font-semibold mb-4">VIP Info</h3>
+        <div class="space-y-4">
+            <div>
+                <label class="block text-sm font-medium text-gray-700">Last Met</label>
+                <input type="text" value="{{.LastMet}}" class="mt-1 w-full border rounded p-2" disabled {{if not .VIP}}class="bg-gray-100"{{end}}>
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-700">Last Contacted</label>
+                <input type="text" value="{{.LastContacted}}" class="mt-1 w-full border rounded p-2" disabled {{if not .VIP}}class="bg-gray-100"{{end}}>
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-700">Last Update</label>
+                <input type="text" value="{{.LastUpdate}}" class="mt-1 w-full border rounded p-2" disabled {{if not .VIP}}class="bg-gray-100"{{end}}>
+            </div>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-2 gap-8 mt-8">
+        <!-- Family Info Block -->
+        <div class="border rounded-lg p-6">
+            <h3 class="text-lg font-semibold mb-4">Family Info</h3>
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Spouse</label>
+                    <input type="text" value="{{.Spouse}}" class="mt-1 w-full border rounded p-2" disabled>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Children</label>
+                    <input type="text" value="{{.Children}}" class="mt-1 w-full border rounded p-2" disabled>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contact Info Block -->
+        <div class="border rounded-lg p-6">
+            <h3 class="text-lg font-semibold mb-4">Contact Info</h3>
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Location</label>
+                    <input type="text" value="{{.Location}}" class="mt-1 w-full border rounded p-2" disabled>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Phone</label>
+                    <input type="text" value="{{.Phone}}" class="mt-1 w-full border rounded p-2" disabled>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Instagram</label>
+                    <input type="text" value="{{.Instagram}}" class="mt-1 w-full border rounded p-2" disabled>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">LinkedIn</label>
+                    <input type="text" value="{{.LinkedIn}}" class="mt-1 w-full border rounded p-2" disabled>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">X</label>
+                    <input type="text" value="{{.X}}" class="mt-1 w-full border rounded p-2" disabled>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notes Block -->
+    <div class="mt-8">
+        <div class="border rounded-lg p-6">
+            <h3 class="text-lg font-semibold mb-4">Notes</h3>
+            <textarea class="w-full h-32 border rounded p-2" disabled>{{.Notes}}</textarea>
+        </div>
+    </div>
+</div>
+{{end}}

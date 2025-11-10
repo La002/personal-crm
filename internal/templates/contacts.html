@@ -1,0 +1,35 @@
+{{define "contacts"}}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personal-Relationship-Manger</title>
+    <script src="https://unpkg.com/htmx.org@1.9.5" integrity="sha384-xcuj3WpfgjlKF+FXhSQFQ0ZNr39ln+hwjN3npfM9VBnUskLolQAcN80McRIVOPuO" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="/static/tailwind.css" />
+</head>
+<body class="bg-blue-50 min-h-screen p-8">
+<div class="max-w-8xl mx-auto">
+    <div class="text-center mb-8">
+        <h1 class="text-3xl font-bold text-gray-800">Your Personal Relationship Manager</h1>
+        <p class="text-sm text-gray-600 italic mt-2">Makes life easy!</p>
+    </div>
+    <table class="w-full bg-white rounded-lg shadow-md" id="contacts-table">
+        {{template "table-content" .}}
+    </table>
+    <script>
+        function toggleVipFields() {
+            const vipCheckbox = document.getElementById('vip-checkbox');
+            const vipFields = document.getElementById('vip-fields');
+            vipFields.classList.toggle('hidden', !vipCheckbox.checked);
+
+            const vipInputs = vipFields.querySelectorAll('input');
+            vipInputs.forEach(input => {
+                input.required = vipCheckbox.checked;
+            });
+        }
+    </script>
+</div>
+</body>
+</html>
+{{end}}

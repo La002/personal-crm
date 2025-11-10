@@ -1,0 +1,122 @@
+{{define "edit"}}
+<form hx-put="/contacts/{{.Id}}" hx-target="#blocks" hx-swap="outerHTML">
+
+    <div class="grid grid-cols-2 gap-8">
+        <!-- Basic Info Block -->
+        <div class="border rounded-lg p-6">
+            <h3 class="text-lg font-semibold mb-4">Basic Info</h3>
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Name</label>
+                    <input type="text" name="name" value="{{.Name}}" class="mt-1 w-full border rounded p-2">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Relationship</label>
+                    <input type="text" name="relationship" value="{{.Relationship}}" class="mt-1 w-full border rounded p-2">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Industry</label>
+                    <input type="text" name="industry" value="{{.Industry}}" class="mt-1 w-full border rounded p-2">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Company</label>
+                    <input type="text" name="company" value="{{.Company}}" class="mt-1 w-full border rounded p-2">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Birthday</label>
+                    <input type="text" name="birthday" value="{{.Birthday}}" class="mt-1 w-full border rounded p-2">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">VIP</label>
+                    <input type="checkbox" name="vip" {{if .VIP}}checked{{end}} class="mt-1">
+                </div>
+            </div>
+        </div>
+        <!-- VIP Info Block -->
+        <div class="border rounded-lg p-6">
+            <h3 class="text-lg font-semibold mb-4">VIP Info</h3>
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Last Met</label>
+                    <input type="text" name="last_met" value="{{.LastMet}}" class="mt-1 w-full border rounded p-2" disabled {{if not .VIP}}class="bg-gray-100"{{end}}>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Last Contacted</label>
+                    <input type="text" name="last_contacted" value="{{.LastContacted}}" class="mt-1 w-full border rounded p-2" disabled {{if not .VIP}}class="bg-gray-100"{{end}}>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Last Update</label>
+                    <input type="text" name="last_update" value="{{.LastUpdate}}" class="mt-1 w-full border rounded p-2" disabled {{if not .VIP}}class="bg-gray-100"{{end}}>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-8 mt-8">
+            <!-- Family Info Block -->
+            <div class="border rounded-lg p-6">
+                <h3 class="text-lg font-semibold mb-4">Family Info</h3>
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Spouse</label>
+                        <input type="text" name="spouse" value="{{.Spouse}}" class="mt-1 w-full border rounded p-2">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Children</label>
+                        <input type="text" name="children" value="{{.Children}}" class="mt-1 w-full border rounded p-2">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Contact Info Block -->
+            <div class="border rounded-lg p-6">
+                <h3 class="text-lg font-semibold mb-4">Contact Info</h3>
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Location</label>
+                        <input type="text" name="location" value="{{.Location}}" class="mt-1 w-full border rounded p-2">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Phone</label>
+                        <input type="text" name="phone" value="{{.Phone}}" class="mt-1 w-full border rounded p-2">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Instagram</label>
+                        <input type="text" name="instagram" value="{{.Instagram}}" class="mt-1 w-full border rounded p-2">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">LinkedIn</label>
+                        <input type="text" name="linkedin" value="{{.LinkedIn}}" class="mt-1 w-full border rounded p-2">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">X</label>
+                        <input type="text" name="X" value="{{.X}}" class="mt-1 w-full border rounded p-2">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Notes Block -->
+        <div class="mt-8">
+            <div class="border rounded-lg p-6">
+                <h3 class="text-lg font-semibold mb-4">Notes</h3>
+                <textarea name="notes" class="w-full h-32 border rounded p-2">{{.Notes}}</textarea>
+            </div>
+        </div>
+    </div>
+
+    <div class="mt-8 flex justify-end gap-4">
+<!--        <button type="button"-->
+<!--                href="/contacts/{{.Id}}"-->
+<!--                class="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-600">-->
+<!--            Cancel-->
+<!--        </button>-->
+        <a href="/contacts/{{.Id}}" class="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-600">
+            Cancel
+        </a>
+        <button type="submit"
+                class="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600">
+            Save
+        </button>
+    </div>
+</form>
+{{end}}

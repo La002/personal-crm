@@ -1,0 +1,10 @@
+log:
+  level: 'debug'
+
+db:
+  pool_max: 2
+  host: 'localhost'
+  user: 'postgres'
+  password: '12345'
+  name: 'personal_crm_service'
+  port: 5432
