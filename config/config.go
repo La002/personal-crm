@@ -41,16 +41,18 @@ type JWT struct {
 
 func NewConfig() *Configuration {
 	var config Configuration
-	viper.SetConfigFile("config/config.yml")
 
 	// Enable environment variable support with nested keys
 	// This converts "db.url" -> "DB_URL", "oauth.google_client_id" -> "OAUTH_GOOGLE_CLIENT_ID"
 	viper.SetEnvKeyReplacer(strings.NewReplacer(".", "_"))
 	viper.AutomaticEnv()
 
+	// Try to read config file (optional for production)
+	viper.SetConfigFile("config/config.yml")
 	if err := viper.ReadInConfig(); err != nil {
-		log.Fatalf("Error reading config file: %s", err)
+		log.Printf("Config file not found, using environment variables only: %s", err)
 	}
+
 	if err := viper.Unmarshal(&config); err != nil {
 		log.Fatalf("Error unmarshaling config: %s", err)
 	}
