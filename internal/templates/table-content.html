@@ -15,72 +15,74 @@
 </thead>
 <tbody>
 {{range .}}
-<tr class="border-b hover:bg-blue-50">
-    <td class="py-4 px-6">
-        <div class="flex items-center space-x-2">
-            <a href="/contacts/{{.Id}}" class="flex items-center">
-                <span class="bg-blue-50 px-3 py-1 rounded-md hover:bg-blue-100">{{.Name}}</span>
-                <svg class="w-4 h-4 ml-2 text-gray-500 hover:text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
-                </svg>
-            </a>
-        </div>
+{{template "contact-row" .}}
+{{end}}
+
+<tr class="border-t border-gray-200 bg-blue-50/60 hover:bg-blue-100/50 align-middle">
+
+    <td class="px-6 py-3">
+        <input name="name" placeholder="Name"
+               class="form-select w-full rounded-md border border-gray-300 text-sm text-gray-700 leading-tight focus:ring-2 focus:ring-blue-500 focus:outline-none px-3 py-1.5" />
     </td>
-    <td class="px-6 py-4">{{.Relationship}}</td>
-    <td class="px-6 py-4">{{.Industry}}</td>
-    <td class="px-6 py-4">{{.Company}}</td>
-    <td class="px-6 py-4">{{.Birthday}}</td>
-    <td class="px-6 py-4">{{if .VIP}}Yes{{else}}No{{end}}</td>
-    <td class="px-6 py-4">{{.LastMet}}</td>
-    <td class="px-6 py-4">{{.LastContacted}}</td>
-    <td class="px-6 py-4">{{.LastUpdate}}</td>
-    <td class="px-6 py-4">
+
+    <td class="px-6 py-3">
+        <select name="relationship"
+               class="w-full rounded-md border border-gray-300 text-sm text-gray-700 leading-tight focus:ring-2 focus:ring-blue-500 px-3 py-1.5" >
+            <option value="" disabled selected hidden>Relationship</option>
+            <option value="Friend">Friend</option>
+            <option value="Family">Family</option>
+            <option value="Colleague">Colleague</option>
+            <option value="School">School</option>
+            <option value="Network">Network</option>
+            <option value="Services">Services</option>
+        </select>
+    </td>
+
+    <td class="px-6 py-3">
+        <input type="text" name="industry" placeholder="Industry"
+               class="w-full rounded-md border border-gray-300 text-sm text-gray-700 leading-tight focus:ring-2 focus:ring-blue-500 px-3 py-1.5" />
+    </td>
+
+    <td class="px-6 py-3">
+        <input type="text" name="company" placeholder="Company"
+               class="w-full rounded-md border border-gray-300 text-sm text-gray-700 leading-tight focus:ring-2 focus:ring-blue-500 px-3 py-1.5" />
+    </td>
+
+    <td class="px-6 py-3">
+        <input type="date" name="birthday"
+               class="w-full rounded-md border border-gray-300 text-sm text-gray-700 leading-tight focus:ring-2 focus:ring-blue-500 px-3 py-1.5" />
+    </td>
+
+    <td class="px-6 py-3 text-center">
+        <input type="checkbox" name="vip"
+               class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded align-middle" />
+    </td>
+
+    <td class="px-6 py-3">
+        <input type="date" name="last_met"
+               class="w-full rounded-md border border-gray-300 text-sm text-gray-700 leading-tight focus:ring-2 focus:ring-blue-500 px-3 py-1.5" />
+    </td>
+
+    <td class="px-6 py-3">
+        <input type="date" name="last_contacted"
+               class="w-full rounded-md border border-gray-300 text-sm text-gray-700 leading-tight focus:ring-2 focus:ring-blue-500 px-3 py-1.5" />
+    </td>
+
+    <td class="px-6 py-3">
+        <input type="text" name="last_update" placeholder="Notes / Update"
+               class="w-full rounded-md border border-gray-300 text-sm text-gray-700 leading-tight focus:ring-2 focus:ring-blue-500 px-3 py-1.5" />
+    </td>
+
+    <td class="px-6 py-3 text-center">
         <button
-            hx-delete="/contacts/{{.Id}}"
-            hx-target="#contacts-table"
-            hx-swap="innerHTML"
-            class="border border-red-400 px-4 py-2 rounded-md hover:border-red-600">
-            🗑️
+                hx-post="/contacts/new" hx-target="#contacts-table" hx-swap="innerHTML" hx-include="closest tr"
+                class="rounded-md bg-blue-600 px-4 py-1.5 text-white text-sm font-medium hover:bg-blue-700 transition">
+            Add
         </button>
     </td>
 </tr>
-{{end}}
-<tr>
-    <td colspan="7" class="px-6 py-4">
-        <form hx-post="/contacts/new" hx-target="#contacts-table" hx-swap="innerHTML" class="space-y-4">
-            <div class="flex flex-wrap gap-4">
-                <input type="text" name="name" placeholder="Name" required class="rounded-md border p-2" />
-                <input type="text" name="relationship" placeholder="Relationship" required class="rounded-md border p-2" />
-                <input type="text" name="industry" placeholder="Industry" class="rounded-md border p-2" />
-                <input type="text" name="company" placeholder="Company" class="rounded-md border p-2" />
-                <input type="date" name="birthday" class="rounded-md border p-2" />
-                <label class="flex items-center gap-2">
-                    VIP:
-                    <input type="checkbox" name="vip" class="rounded" id="vip-checkbox" onchange="toggleVipFields()" />
-                </label>
-<!--                <div id="vip-fields" class="hidden flex gap-4">-->
-<!--                    <input type="date" name="last_met" placeholder="Last Met" class="rounded-md border p-2" />-->
-<!--                    <input type="date" name="last_contacted" placeholder="Last Contacted" class="rounded-md border p-2" />-->
-<!--                    <input type="text" name="last_update" placeholder="Last Update" class="rounded-md border p-2" />-->
-<!--                </div>-->
-                <div id="vip-fields" class="hidden flex gap-4 items-center">
-                    <div class="flex flex-col">
-                        <label for="last-met" class="text-sm">Last Met</label>
-                        <input type="date" name="last_met" id="last-met" class="rounded-md border p-1 w-36" />
-                    </div>
-                    <div class="flex flex-col">
-                        <label for="last-contacted" class="text-sm">Last Contacted</label>
-                        <input type="date" name="last_contacted" id="last-contacted" class="rounded-md border p-1 w-36" />
-                    </div>
-                    <div class="flex flex-col">
-                        <label for="last-update" class="text-sm">Last Update</label>
-                        <input type="text" name="last_update" id="last-update" placeholder="Last Update" class="rounded-md border p-1 w-36" />
-                    </div>
-                </div>
-                <button type="submit" class="bg-blue-200 px-4 py-2 rounded-md hover:bg-blue-300">Add Contact</button>
-            </div>
-        </form>
-    </td>
-</tr>
+
+
+
 </tbody>
 {{end}}

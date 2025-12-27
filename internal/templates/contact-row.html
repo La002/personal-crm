@@ -1,0 +1,54 @@
+{{define "contact-row"}}
+<tr class="border-b hover:bg-blue-50">
+
+    <td class="py-4 px-6">
+        <div class="flex items-center space-x-2">
+            <a href="/contacts/{{.Id}}" class="flex items-center">
+                <span class="bg-blue-50 px-3 py-1 rounded-md hover:bg-blue-100">{{.Name}}</span>
+                <svg class="w-4 h-4 ml-2 text-gray-500 hover:text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                </svg>
+            </a>
+        </div>
+    </td>
+    <td class="px-6 py-4">{{.Relationship}}</td>
+    <td class="px-6 py-4">{{.Industry}}</td>
+    <td class="px-6 py-4">{{.Company}}</td>
+    <!--    <td class="px-6 py-4">{{.Birthday}}</td>-->
+    <td class="px-6 py-4">
+        {{.Birthday}}
+        {{if .Birthday}}
+            {{if .CalendarSyncEnabled}}
+                <button hx-delete="/contacts/{{.Id}}/calendar/sync"
+                        hx-target="closest tr"
+                        hx-swap="outerHTML"
+                        class="ml-2 text-green-600"
+                        title="Remove reminder">
+                    ✓📅
+                </button>
+            {{else}}
+                <button hx-post="/contacts/{{.Id}}/calendar/sync"
+                        hx-target="closest tr"
+                        hx-swap="outerHTML"
+                        class="ml-2 text-gray-400 hover:text-blue-600"
+                        title="Add reminder">
+                    📅
+                </button>
+            {{end}}
+        {{end}}
+    </td>
+    <td class="px-6 py-4">{{if .Vip}}Yes{{else}}No{{end}}</td>
+    <td class="px-6 py-4">{{.LastMet}}</td>
+    <td class="px-6 py-4">{{.LastContacted}}</td>
+    <td class="px-6 py-4">{{.LastUpdate}}</td>
+    <td class="px-6 py-4">
+        <button
+                hx-delete="/contacts/{{.Id}}"
+                hx-target="#contacts-table"
+                hx-swap="innerHTML"
+                class="border border-red-400 px-4 py-2 rounded-md hover:border-red-600">
+            🗑️
+        </button>
+    </td>
+</tr>
+{{end}}

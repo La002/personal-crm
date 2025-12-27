@@ -6,27 +6,107 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Personal-Relationship-Manager</title>
     <script src="https://unpkg.com/htmx.org@1.9.5" integrity="sha384-xcuj3WpfgjlKF+FXhSQFQ0ZNr39ln+hwjN3npfM9VBnUskLolQAcN80McRIVOPuO" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="/static/tailwind.css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="/static/js/common.js"></script>
 </head>
 
-<body class="p-8">
-<h1 class="text-4xl font-bold mb-4">Details</h1>
-
-<div class="flex justify-between items-center mb-8">
-    <a href="/contacts" class="text-sm text-blue-600 hover:underline">← Back to Home</a>
-    <div >
-        <h2 class="text-2xl font-semibold">{{.Name}}</h2>
-        <button
-                hx-get="/contacts/{{.Id}}/edit"
-                hx-target="#blocks"
-                class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">
-            Edit
-        </button>
+<body class="bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 min-h-screen p-8">
+<div class="max-w-6xl mx-auto">
+    <div class="mb-6">
+        <a href="/contacts" class="inline-flex items-center text-blue-600 hover:text-blue-800 font-medium transition">
+            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+            </svg>
+            Back to Contacts
+        </a>
     </div>
-</div>
+
+    <div class="bg-white rounded-xl shadow-lg p-8 mb-8 border-t-4 border-gradient-to-r from-blue-500 to-purple-600">
+        <div class="flex justify-between items-center">
+            <div class="flex items-center">
+                <div class="w-16 h-16 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center mr-4 shadow-lg">
+                    <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+                    </svg>
+                </div>
+                <div>
+                    <h1 class="text-4xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">{{.Name}}</h1>
+                    <p class="text-gray-600 text-sm mt-1">Contact Details</p>
+                </div>
+            </div>
+            <button
+                    hx-get="/contacts/{{.Id}}/edit"
+                    hx-target="#blocks"
+                    class="bg-gradient-to-r from-blue-500 to-purple-600 text-white px-6 py-3 rounded-lg font-semibold hover:shadow-xl transform hover:scale-105 transition duration-200">
+                ✏️ Edit
+            </button>
+        </div>
+    </div>
 
 <div id="blocks">
     {{template "blocks" .}}
+</div>
+
+<!-- Custom Events Section -->
+<div class="mt-8 bg-white rounded-xl shadow-lg p-8">
+    <div class="flex items-center mb-6">
+        <div class="w-10 h-10 bg-gradient-to-br from-green-500 to-teal-600 rounded-lg flex items-center justify-center mr-3">
+            <span class="text-xl">📅</span>
+        </div>
+        <h3 class="text-2xl font-bold text-gray-800">Custom Events</h3>
+    </div>
+
+    <!-- Create Event Form -->
+    <div class="bg-gradient-to-br from-green-50 to-teal-50 rounded-xl p-6 mb-6 border border-green-200">
+        <h4 class="text-lg font-semibold text-gray-800 mb-4 flex items-center">
+            <span class="mr-2">➕</span> Create New Event
+        </h4>
+        <form hx-post="/contacts/{{.Id}}/events"
+              hx-target="#events-container"
+              hx-swap="beforeend show:bottom"
+              class="space-y-4">
+            <div>
+                <label class="block text-sm font-semibold text-gray-700 mb-2">Event Title</label>
+                <input type="text" name="title" required
+                       class="w-full border-2 border-gray-300 rounded-lg p-3 focus:border-green-500 focus:ring-2 focus:ring-green-200 transition"
+                       placeholder="e.g., Anniversary, Meeting, etc.">
+            </div>
+            <div>
+                <label class="block text-sm font-semibold text-gray-700 mb-2">Event Date</label>
+                <input type="date" name="event_date" required
+                       class="w-full border-2 border-gray-300 rounded-lg p-3 focus:border-green-500 focus:ring-2 focus:ring-green-200 transition">
+            </div>
+            <div>
+                <label class="block text-sm font-semibold text-gray-700 mb-2">Repeat</label>
+                <select name="recurrence" class="w-full border-2 border-gray-300 rounded-lg p-3 focus:border-green-500 focus:ring-2 focus:ring-green-200 transition">
+                    <option value="none">Does not repeat</option>
+                    <option value="monthly">🔁 Monthly</option>
+                    <option value="yearly">🔁 Yearly</option>
+                </select>
+            </div>
+            <button type="submit"
+                    class="bg-gradient-to-r from-green-500 to-teal-600 text-white px-8 py-3 rounded-lg font-semibold hover:shadow-xl transform hover:scale-105 transition duration-200">
+                ➕ Add Event to Calendar
+            </button>
+        </form>
+    </div>
+
+    <!-- Events List -->
+    <div class="border-t border-gray-200 pt-6">
+        <h4 class="text-lg font-semibold text-gray-800 mb-4">Upcoming Events</h4>
+        <div id="events-container" class="space-y-3">
+            {{if .Events}}
+                {{range .Events}}
+                    {{template "event-row" .}}
+                {{end}}
+            {{else}}
+                <div class="text-center py-8 bg-gray-50 rounded-lg border-2 border-dashed border-gray-300">
+                    <p class="text-gray-500 text-sm">No custom events yet. Create one above!</p>
+                </div>
+            {{end}}
+        </div>
+    </div>
+</div>
 </div>
 </body>
 </html>

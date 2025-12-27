@@ -6,29 +6,103 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Personal-Relationship-Manger</title>
     <script src="https://unpkg.com/htmx.org@1.9.5" integrity="sha384-xcuj3WpfgjlKF+FXhSQFQ0ZNr39ln+hwjN3npfM9VBnUskLolQAcN80McRIVOPuO" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="/static/tailwind.css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="/static/js/common.js"></script>
 </head>
-<body class="bg-blue-50 min-h-screen p-8">
-<div class="max-w-8xl mx-auto">
-    <div class="text-center mb-8">
-        <h1 class="text-3xl font-bold text-gray-800">Your Personal Relationship Manager</h1>
-        <p class="text-sm text-gray-600 italic mt-2">Makes life easy!</p>
+<body class="bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 min-h-screen p-8">
+<div class="max-w-8xl mx-auto" id="main-page">
+    <!-- User Info Header -->
+    <div class="flex justify-between items-center mb-6 bg-white rounded-xl shadow-lg p-5 border-t-4 border-blue-500">
+        <div class="flex items-center">
+            <div class="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center mr-4 shadow-md">
+                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+                </svg>
+            </div>
+            <div>
+                <p class="text-xs text-gray-500 uppercase tracking-wide">Signed in as</p>
+                <p class="font-bold text-gray-800">{{.Email}}</p>
+            </div>
+        </div>
+        <div class="flex gap-3">
+            <a href="/dashboard" class="px-6 py-2.5 bg-gradient-to-r from-blue-500 to-purple-600 text-white font-semibold rounded-lg hover:shadow-xl transform hover:scale-105 transition duration-200">
+                📊 Dashboard
+            </a>
+            <form action="/auth/logout" method="post">
+                <button type="submit"
+                        class="px-5 py-2.5 bg-gradient-to-r from-red-500 to-pink-600 text-white font-semibold rounded-lg hover:shadow-xl transform hover:scale-105 transition duration-200">
+                    Logout
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <div class="text-center mb-8 bg-white rounded-xl shadow-md p-6">
+        <h1 class="text-4xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-2">Your Personal Relationship Manager</h1>
+        <p class="text-sm text-gray-600 italic">Makes life easy!</p>
+    </div>
+    <div class="tabs mb-4">
+        <ul class="flex border-b">
+            <li>
+                <button hx-get="/contacts/search" hx-target="#contacts-table" hx-swap="innerHTML"
+                        class="px-4 py-2 border-2 border-blue-500 rounded-full text-blue-500 font-semibold transition hover:bg-blue-100 active:bg-blue-200">
+                    All Relationships
+                </button>
+            </li>
+            <li>
+                <button hx-get="/contacts/search?filter=vip" hx-target="#contacts-table" hx-swap="innerHTML"
+                        class="px-4 py-2 border-2 border-blue-500 rounded-full text-blue-500 font-semibold transition hover:bg-blue-100 active:bg-blue-200">
+                    Vip
+                </button>
+            </li>
+            <li>
+                <button hx-get="/contacts/search?filter=non-vip" hx-target="#contacts-table" hx-swap="innerHTML"
+                        class="px-4 py-2 border-2 border-blue-500 rounded-full text-blue-500 font-semibold transition hover:bg-blue-100 active:bg-blue-200">
+                    Non-Vip
+                </button>
+            </li>
+            <li>
+                <button hx-get="/contacts/search?filter=Friend" hx-target="#contacts-table" hx-swap="innerHTML"
+                        class="px-4 py-2 border-2 border-blue-500 rounded-full text-blue-500 font-semibold transition hover:bg-blue-100 active:bg-blue-200">
+                    Friend
+                </button>
+            </li>
+            <li>
+                <button hx-get="/contacts/search?filter=Family" hx-target="#contacts-table" hx-swap="innerHTML"
+                        class="px-4 py-2 border-2 border-blue-500 rounded-full text-blue-500 font-semibold transition hover:bg-blue-100 active:bg-blue-200">
+                    Family
+                </button>
+            </li>
+            <li>
+                <button hx-get="/contacts/search?filter=Colleague" hx-target="#contacts-table" hx-swap="innerHTML"
+                        class="px-4 py-2 border-2 border-blue-500 rounded-full text-blue-500 font-semibold transition hover:bg-blue-100 active:bg-blue-200">
+                    Colleague
+                </button>
+            </li>
+            <li>
+                <button hx-get="/contacts/search?filter=School" hx-target="#contacts-table" hx-swap="innerHTML"
+                        class="px-4 py-2 border-2 border-blue-500 rounded-full text-blue-500 font-semibold transition hover:bg-blue-100 active:bg-blue-200">
+                    School
+                </button>
+            </li>
+            <li>
+                <button hx-get="/contacts/search?filter=Network" hx-target="#contacts-table" hx-swap="innerHTML"
+                        class="px-4 py-2 border-2 border-blue-500 rounded-full text-blue-500 font-semibold transition hover:bg-blue-100 active:bg-blue-200">
+                    Network
+                </button>
+            </li>
+            <li>
+                <button hx-get="/contacts/search?filter=Services" hx-target="#contacts-table" hx-swap="innerHTML"
+                        class="px-4 py-2 border-2 border-blue-500 rounded-full text-blue-500 font-semibold transition hover:bg-blue-100 active:bg-blue-200">
+                    Services
+                </button>
+            </li>
+
+        </ul>
     </div>
     <table class="w-full bg-white rounded-lg shadow-md" id="contacts-table">
-        {{template "table-content" .}}
+        {{template "table-content" .Contacts}}
     </table>
-    <script>
-        function toggleVipFields() {
-            const vipCheckbox = document.getElementById('vip-checkbox');
-            const vipFields = document.getElementById('vip-fields');
-            vipFields.classList.toggle('hidden', !vipCheckbox.checked);
-
-            const vipInputs = vipFields.querySelectorAll('input');
-            vipInputs.forEach(input => {
-                input.required = vipCheckbox.checked;
-            });
-        }
-    </script>
 </div>
 </body>
 </html>

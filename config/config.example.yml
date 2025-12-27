@@ -1,0 +1,25 @@
+log:
+  level: 'debug'
+
+db:
+  # For cloud deployment (Render/Railway), use DB_URL environment variable:
+  # Example: export DB_URL='postgres://user:pass@host/db?sslmode=require'
+  # Leave commented out for local development (uses individual fields below)
+  # url: ''
+
+  # Local development settings (used when url is empty)
+  pool_max: 2
+  host: 'localhost'
+  user: 'postgres'
+  password: 'YOUR_LOCAL_DB_PASSWORD'
+  name: 'personal_crm_service'
+  port: 5432
+
+oauth:
+  google_client_id: 'YOUR_GOOGLE_CLIENT_ID'
+  google_client_secret: 'YOUR_GOOGLE_CLIENT_SECRET'
+  redirect_url: 'http://localhost:8080/auth/google/callback'
+
+jwt:
+  secret_key: 'CHANGE-THIS-TO-A-SECURE-SECRET-KEY-MIN-32-CHARS'
+  expiry_hours: 24

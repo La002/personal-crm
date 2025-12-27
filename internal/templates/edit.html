@@ -1,5 +1,5 @@
 {{define "edit"}}
-<form hx-put="/contacts/{{.Id}}" hx-target="#blocks" hx-swap="outerHTML">
+<form hx-put="/contacts/{{.Id}}" hx-target="#blocks">
 
     <div class="grid grid-cols-2 gap-8">
         <!-- Basic Info Block -->
@@ -24,29 +24,29 @@
                 </div>
                 <div>
                     <label class="block text-sm font-medium text-gray-700">Birthday</label>
-                    <input type="text" name="birthday" value="{{.Birthday}}" class="mt-1 w-full border rounded p-2">
+                    <input type="date" name="birthday" value="{{.Birthday}}" class="mt-1 w-full border rounded p-2">
                 </div>
                 <div>
-                    <label class="block text-sm font-medium text-gray-700">VIP</label>
-                    <input type="checkbox" name="vip" {{if .VIP}}checked{{end}} class="mt-1">
+                    <label class="block text-sm font-medium text-gray-700">Vip</label>
+                    <input type="checkbox" id="vip-checkbox" name="vip" {{if .Vip}}checked{{end}} class="mt-1" onchange="toggleVipFields()">
                 </div>
             </div>
         </div>
-        <!-- VIP Info Block -->
+        <!-- Vip Info Block -->
         <div class="border rounded-lg p-6">
-            <h3 class="text-lg font-semibold mb-4">VIP Info</h3>
+            <h3 class="text-lg font-semibold mb-4">Vip Info</h3>
             <div class="space-y-4">
                 <div>
                     <label class="block text-sm font-medium text-gray-700">Last Met</label>
-                    <input type="text" name="last_met" value="{{.LastMet}}" class="mt-1 w-full border rounded p-2" disabled {{if not .VIP}}class="bg-gray-100"{{end}}>
+                    <input type="date" id="last_met" name="last_met" value="{{.LastMet}}" class="mt-1 w-full border rounded p-2 vip-field" {{if not .Vip}}disabled{{end}}>
                 </div>
                 <div>
                     <label class="block text-sm font-medium text-gray-700">Last Contacted</label>
-                    <input type="text" name="last_contacted" value="{{.LastContacted}}" class="mt-1 w-full border rounded p-2" disabled {{if not .VIP}}class="bg-gray-100"{{end}}>
+                    <input type="date" id="last_contacted" name="last_contacted" value="{{.LastContacted}}" class="mt-1 w-full border rounded p-2 vip-field" {{if not .Vip}}disabled{{end}}>
                 </div>
                 <div>
                     <label class="block text-sm font-medium text-gray-700">Last Update</label>
-                    <input type="text" name="last_update" value="{{.LastUpdate}}" class="mt-1 w-full border rounded p-2" disabled {{if not .VIP}}class="bg-gray-100"{{end}}>
+                    <input type="text" id="last_update" name="last_update" value="{{.LastUpdate}}" class="mt-1 w-full border rounded p-2 vip-field" {{if not .Vip}}disabled{{end}}>
                 </div>
             </div>
         </div>

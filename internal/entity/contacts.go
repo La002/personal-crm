@@ -1,6 +1,8 @@
 package entity
 
 import (
+	"time"
+
 	"github.com/google/uuid"
 	"gorm.io/gorm"
 )
@@ -18,14 +20,19 @@ const (
 
 type Contact struct {
 	gorm.Model
+	UserID       uint     `json:"user_id" gorm:"not null;index"`
+	User         User     `json:"-" gorm:"foreignKey:UserID"`
 	Name         string   `json:"name" gorm:"varchar(255);not null"`
 	Relationship Relation `json:"relationship" gorm:"type:relation"`
 	Industry     string   `json:"industry"`
 	Company      string   `json:"company"`
 	Birthday     string   `json:"birthday"`
-	VIP          bool     `json:"vip"`
+	Vip          bool     `json:"vip" gorm:"default:false" gorm:"column:vip"`
 	DetailInfo
-	VIPInfo
+	VipInfo
+	GoogleCalendarEventID string    `json:"google_calendar_event_id" gorm:"varchar(255)"`
+	CalendarSyncEnabled   bool      `json:"calendar_sync_enabled" gorm:"default:false"`
+	CalendarSyncedAt      time.Time `json:"calendar_synced_at"`
 }
 
 type DetailInfo struct {
@@ -48,7 +55,7 @@ type ContactInfo struct {
 	X           string `json:"x"`
 }
 
-type VIPInfo struct {
+type VipInfo struct {
 	LastMet       string `json:"last_met"`
 	LastContacted string `json:"last_contacted"`
 	LastUpdate    string `json:"last_update"`

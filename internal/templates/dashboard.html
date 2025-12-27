@@ -1,0 +1,145 @@
+{{define "dashboard"}}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Personal CRM</title>
+    <script src="https://unpkg.com/htmx.org@1.9.5" integrity="sha384-xcuj3WpfgjlKF+FXhSQFQ0ZNr39ln+hwjN3npfM9VBnUskLolQAcN80McRIVOPuO" crossorigin="anonymous"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="p-8 bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 min-h-screen">
+<div class="max-w-7xl mx-auto">
+    <div class="flex justify-between items-center mb-8">
+        <h1 class="text-4xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">Dashboard</h1>
+        <a href="/contacts" class="bg-gradient-to-r from-blue-500 to-purple-600 text-white px-6 py-3 rounded-full hover:shadow-lg transform hover:scale-105 transition duration-200 font-semibold">
+            View All Contacts
+        </a>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <!-- Upcoming Events Widget -->
+        <div class="bg-gradient-to-br from-pink-500 to-rose-600 rounded-2xl shadow-2xl p-6 text-white transform hover:scale-105 transition duration-300">
+            <h2 class="text-2xl font-bold mb-6 flex items-center">
+                <span class="text-3xl mr-3 animate-bounce">📅</span>
+                Upcoming Events
+            </h2>
+            {{if .UpcomingEvents}}
+                <div class="space-y-3">
+                    {{range .UpcomingEvents}}
+                        <a href="/contacts/{{.ContactID}}" class="block p-4 bg-white bg-opacity-20 backdrop-blur-sm rounded-xl hover:bg-opacity-30 transition transform hover:translate-x-2 duration-200">
+                            <div class="flex justify-between items-center">
+                                <div>
+                                    <p class="font-bold text-lg">
+                                        {{if eq .EventType "Birthday"}}
+                                            🎂 {{.Name}}'s Birthday
+                                        {{else}}
+                                            {{.Name}} - {{.Title}}
+                                        {{end}}
+                                    </p>
+                                    <p class="text-sm text-pink-100">{{.DisplayDate}}</p>
+                                </div>
+                                <div class="text-right">
+                                    <span class="text-sm font-bold bg-white text-pink-600 px-3 py-1 rounded-full">
+                                        {{if eq .DaysUntil 0}}
+                                            Today!
+                                        {{else if eq .DaysUntil 1}}
+                                            Tomorrow
+                                        {{else}}
+                                            {{.DaysUntil}} days
+                                        {{end}}
+                                    </span>
+                                </div>
+                            </div>
+                        </a>
+                    {{end}}
+                </div>
+            {{else}}
+                <div class="text-center py-12 bg-white bg-opacity-10 rounded-xl">
+                    <p class="text-pink-100 text-lg">No upcoming events in the next 30 days</p>
+                </div>
+            {{end}}
+        </div>
+
+        <!-- Needs Attention Widget -->
+        <div class="bg-gradient-to-br from-orange-500 to-amber-600 rounded-2xl shadow-2xl p-6 text-white transform hover:scale-105 transition duration-300">
+            <h2 class="text-2xl font-bold mb-6 flex items-center">
+                <span class="text-3xl mr-3">⚠️</span>
+                Needs Attention
+            </h2>
+            {{if .NeedsAttention}}
+                <div class="space-y-3">
+                    {{range .NeedsAttention}}
+                        <a href="/contacts/{{.ID}}" class="block p-4 bg-white bg-opacity-20 backdrop-blur-sm rounded-xl hover:bg-opacity-30 transition transform hover:translate-x-2 duration-200">
+                            <div class="flex justify-between items-center">
+                                <div>
+                                    <p class="font-bold text-lg">{{.Name}}</p>
+                                    {{if .Company}}
+                                        <p class="text-sm text-orange-100">{{.Company}}</p>
+                                    {{end}}
+                                </div>
+                                <div class="text-right">
+                                    <span class="text-sm font-bold bg-white text-orange-600 px-3 py-1 rounded-full">
+                                        {{if eq .DaysSince 0}}
+                                            No contact
+                                        {{else}}
+                                            {{.DaysSince}}d ago
+                                        {{end}}
+                                    </span>
+                                </div>
+                            </div>
+                        </a>
+                    {{end}}
+                </div>
+            {{else}}
+                <div class="text-center py-12 bg-white bg-opacity-10 rounded-xl">
+                    <p class="text-orange-100 text-lg">✨ All your VIP contacts are up to date!</p>
+                </div>
+            {{end}}
+        </div>
+
+        <!-- Recent Activity Widget (spans full width on large screens) -->
+        <div class="bg-gradient-to-br from-blue-500 to-indigo-600 rounded-2xl shadow-2xl p-6 lg:col-span-2 text-white transform hover:scale-105 transition duration-300">
+            <h2 class="text-2xl font-bold mb-6 flex items-center">
+                <span class="text-3xl mr-3">📝</span>
+                Recent Activity
+            </h2>
+            {{if .RecentActivity}}
+                <div class="space-y-3">
+                    {{range .RecentActivity}}
+                        <a href="/contacts/{{.ID}}" class="block p-4 bg-white bg-opacity-20 backdrop-blur-sm rounded-xl hover:bg-opacity-30 transition transform hover:translate-x-2 duration-200">
+                            <div class="flex justify-between items-center">
+                                <div class="flex items-center space-x-4">
+                                    {{if eq .Action "Added"}}
+                                        <span class="text-xs font-bold px-3 py-1 rounded-full bg-green-400 text-green-900">
+                                            + {{.Action}}
+                                        </span>
+                                    {{else}}
+                                        <span class="text-xs font-bold px-3 py-1 rounded-full bg-purple-400 text-purple-900">
+                                            ✎ {{.Action}}
+                                        </span>
+                                    {{end}}
+                                    <div>
+                                        <span class="font-bold text-lg">{{.Name}}</span>
+                                        {{if .Company}}
+                                            <span class="text-blue-100"> • {{.Company}}</span>
+                                        {{end}}
+                                    </div>
+                                </div>
+                                <span class="text-sm text-blue-100 font-medium">{{.Timestamp}}</span>
+                            </div>
+                        </a>
+                    {{end}}
+                </div>
+            {{else}}
+                <div class="text-center py-12 bg-white bg-opacity-10 rounded-xl">
+                    <p class="text-blue-100 text-lg">No recent activity</p>
+                </div>
+            {{end}}
+        </div>
+    </div>
+</div>
+</body>
+</html>
+{{end}}

@@ -25,27 +25,27 @@
                 <input type="text" value="{{.Birthday}}" class="mt-1 w-full border rounded p-2" disabled>
             </div>
             <div>
-                <label class="block text-sm font-medium text-gray-700">VIP</label>
-                <input type="checkbox" {{if .VIP}}checked{{end}} class="mt-1" disabled>
+                <label class="block text-sm font-medium text-gray-700">Vip</label>
+                <input type="checkbox" {{if .Vip}}checked{{end}} class="mt-1" disabled>
             </div>
         </div>
     </div>
 
-    <!-- VIP Info Block -->
+    <!-- Vip Info Block -->
     <div class="border rounded-lg p-6">
-        <h3 class="text-lg font-semibold mb-4">VIP Info</h3>
+        <h3 class="text-lg font-semibold mb-4">Vip Info</h3>
         <div class="space-y-4">
             <div>
                 <label class="block text-sm font-medium text-gray-700">Last Met</label>
-                <input type="text" value="{{.LastMet}}" class="mt-1 w-full border rounded p-2" disabled {{if not .VIP}}class="bg-gray-100"{{end}}>
+                <input type="text" value="{{.LastMet}}" class="mt-1 w-full border rounded p-2" disabled {{if not .Vip}}class="bg-gray-100"{{end}}>
             </div>
             <div>
                 <label class="block text-sm font-medium text-gray-700">Last Contacted</label>
-                <input type="text" value="{{.LastContacted}}" class="mt-1 w-full border rounded p-2" disabled {{if not .VIP}}class="bg-gray-100"{{end}}>
+                <input type="text" value="{{.LastContacted}}" class="mt-1 w-full border rounded p-2" disabled {{if not .Vip}}class="bg-gray-100"{{end}}>
             </div>
             <div>
                 <label class="block text-sm font-medium text-gray-700">Last Update</label>
-                <input type="text" value="{{.LastUpdate}}" class="mt-1 w-full border rounded p-2" disabled {{if not .VIP}}class="bg-gray-100"{{end}}>
+                <input type="text" value="{{.LastUpdate}}" class="mt-1 w-full border rounded p-2" disabled {{if not .Vip}}class="bg-gray-100"{{end}}>
             </div>
         </div>
     </div>

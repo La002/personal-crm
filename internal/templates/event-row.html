@@ -1,0 +1,21 @@
+{{define "event-row"}}
+<div id="event-{{.ID}}" class="flex justify-between items-center bg-white border rounded-lg p-4">
+    <div>
+        <span class="font-semibold text-gray-800">{{.Title}}</span>
+        <span class="text-gray-600 ml-3">📅 {{.EventDate}}</span>
+        {{if eq .Recurrence "monthly"}}
+            <span class="text-blue-600 ml-2 text-sm">🔁 Monthly</span>
+        {{else if eq .Recurrence "yearly"}}
+            <span class="text-blue-600 ml-2 text-sm">🔁 Yearly</span>
+        {{end}}
+    </div>
+    <button
+        hx-delete="/contacts/{{.ContactID}}/events/{{.ID}}"
+        hx-target="#event-{{.ID}}"
+        hx-swap="outerHTML"
+        hx-confirm="Are you sure you want to delete this event?"
+        class="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600">
+        Delete
+    </button>
+</div>
+{{end}}
