@@ -1,0 +1,24 @@
+log:
+  level: 'info'
+
+db:
+  # For production: Set DB_URL environment variable
+  # For local dev: Set individual fields below
+  url: ''
+  pool_max: 2
+  host: 'localhost'
+  user: 'postgres'
+  password: 'postgres'
+  name: 'personal_crm_service'
+  port: '5432'
+
+oauth:
+  # Set via environment variables: OAUTH_GOOGLE_CLIENT_ID, OAUTH_GOOGLE_CLIENT_SECRET, OAUTH_REDIRECT_URL
+  google_client_id: ''
+  google_client_secret: ''
+  redirect_url: 'http://localhost:8080/auth/google/callback'
+
+jwt:
+  # Set via environment variable: JWT_SECRET_KEY
+  secret_key: 'change-me-in-production'
+  expiry_hours: 24

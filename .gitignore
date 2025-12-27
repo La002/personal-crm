@@ -1,5 +1,5 @@
-# Config with secrets
-config/config.yml
+# Config with real secrets (local dev only)
+config/config.secrets.yml
 
 # Binaries
 *.exe

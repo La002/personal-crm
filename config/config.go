@@ -47,10 +47,10 @@ func NewConfig() *Configuration {
 	viper.SetEnvKeyReplacer(strings.NewReplacer(".", "_"))
 	viper.AutomaticEnv()
 
-	// Try to read config file (optional for production)
+	// Try to read config file
 	viper.SetConfigFile("config/config.yml")
 	if err := viper.ReadInConfig(); err != nil {
-		log.Printf("Config file not found, using environment variables only: %s", err)
+		log.Printf("Config file not found: %s", err)
 	}
 
 	if err := viper.Unmarshal(&config); err != nil {
