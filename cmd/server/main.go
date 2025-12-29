@@ -1,6 +1,8 @@
 package main
 
 import (
+	"time"
+
 	"github.com/La002/personal-crm/config"
 	"github.com/La002/personal-crm/internal/middleware"
 	"github.com/La002/personal-crm/internal/renderer"
@@ -8,10 +10,12 @@ import (
 	"github.com/La002/personal-crm/internal/service"
 	"github.com/La002/personal-crm/migrations"
 	"github.com/La002/personal-crm/pkg/logger"
+	"github.com/La002/personal-crm/pkg/metrics"
 	"github.com/La002/personal-crm/pkg/postgres"
 	"github.com/labstack/echo/v4"
 	echomiddleware "github.com/labstack/echo/v4/middleware"
 	"github.com/labstack/gommon/log"
+	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"golang.org/x/time/rate"
 )
 
@@ -35,6 +39,16 @@ func main() {
 		l.Fatal("Failed to run migrations:", err)
 	}
 	l.Debug("Migrations completed successfully")
+
+	// Start background metrics updater
+	go func() {
+		ticker := time.NewTicker(30 * time.Second)
+		defer ticker.Stop()
+		for range ticker.C {
+			metrics.UpdateDBMetrics(gormDB)
+			metrics.UpdateBusinessMetrics(gormDB)
+		}
+	}()
 
 	// Initialize repositories
 	contactRepo := repository.NewContactRepo(cfg, l)
@@ -87,6 +101,9 @@ func main() {
 		Format: "time=${time_rfc3339} method=${method} uri=${uri} status=${status} error=${error}\n",
 	}))
 
+	// Add Prometheus metrics middleware
+	e.Use(metrics.PrometheusMiddleware())
+
 	// Little bit of middlewares for housekeeping
 	e.Pre(echomiddleware.RemoveTrailingSlash())
 	e.Use(echomiddleware.Recover())
@@ -100,6 +117,10 @@ func main() {
 	e.GET("/", func(c echo.Context) error {
 		return c.Render(200, "home", nil)
 	})
+
+	// Prometheus metrics endpoint
+	e.GET("/metrics", echo.WrapHandler(promhttp.Handler()))
+
 	e.GET("/auth/google/login", authHandler.GoogleLogin)
 	e.GET("/auth/google/callback", authHandler.GoogleCallback)
 	e.GET("/login", func(c echo.Context) error {
