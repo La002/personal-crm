@@ -5,8 +5,8 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/La002/personal-crm/internal/entity"
-	"github.com/La002/personal-crm/internal/repository"
+	"github.com/La002/personal-crm/pkg/entity"
+	"github.com/La002/personal-crm/pkg/repository"
 	"github.com/labstack/echo/v4"
 	"gorm.io/gorm"
 )

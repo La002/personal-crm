@@ -5,7 +5,7 @@ import (
 	"time"
 
 	"github.com/La002/personal-crm/config"
-	"github.com/La002/personal-crm/internal/entity"
+	"github.com/La002/personal-crm/pkg/entity"
 	"github.com/La002/personal-crm/pkg/logger"
 	"github.com/La002/personal-crm/pkg/postgres"
 	"gorm.io/gorm"

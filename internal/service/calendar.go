@@ -4,8 +4,8 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/La002/personal-crm/internal/entity"
-	"github.com/La002/personal-crm/internal/repository"
+	"github.com/La002/personal-crm/pkg/entity"
+	"github.com/La002/personal-crm/pkg/repository"
 	"golang.org/x/oauth2"
 	"golang.org/x/oauth2/google"
 	"google.golang.org/api/calendar/v3"

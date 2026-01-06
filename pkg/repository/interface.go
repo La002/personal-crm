@@ -3,7 +3,7 @@ package repository
 import (
 	"time"
 
-	"github.com/La002/personal-crm/internal/entity"
+	"github.com/La002/personal-crm/pkg/entity"
 )
 
 type ContactDao interface {

@@ -6,7 +6,7 @@ import (
 	"sort"
 	"time"
 
-	"github.com/La002/personal-crm/internal/repository"
+	"github.com/La002/personal-crm/pkg/repository"
 	"github.com/labstack/echo/v4"
 )
 

@@ -6,9 +6,9 @@ import (
 	"os"
 
 	"github.com/La002/personal-crm/config"
-	"github.com/La002/personal-crm/internal/repository"
 	"github.com/La002/personal-crm/migrations"
 	"github.com/La002/personal-crm/pkg/logger"
+	"github.com/La002/personal-crm/pkg/repository"
 )
 
 func main() {
